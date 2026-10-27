@@ -21,8 +21,10 @@ export const S = {
   /** The file exactly as it was read, used to spot script-generated regions. */
   sourceHtml: '',
   dirty: false,
-  /** 'edit' | 'view' — what the pulldown shows. */
+  /** 'edit' | 'view' | 'source' — what the pulldown shows. */
   mode: 'edit',
+  /** Source text when HTML view opened, used to detect code changes on return. */
+  sourceSnapshot: '',
   /** Mirrors `mode === 'edit'`; read often enough to be worth caching. */
   editing: true,
   /** A tool used inside editing, not a mode of its own. */
