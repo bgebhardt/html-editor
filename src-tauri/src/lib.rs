@@ -595,6 +595,7 @@ fn build_menu(app: &AppHandle, settings: &Settings) -> tauri::Result<Menu<tauri:
         &[
             &item("mode_edit", "Editing", Some("CmdOrCtrl+E"))?,
             &item("mode_view", "Viewing", Some("Shift+CmdOrCtrl+E"))?,
+            &item("mode_source", "HTML Source", None)?,
             &PredefinedMenuItem::separator(app)?,
             &item("toggle_trim", "Trim Blocks", Some("CmdOrCtrl+D"))?,
             &PredefinedMenuItem::separator(app)?,

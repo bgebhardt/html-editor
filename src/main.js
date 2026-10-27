@@ -29,6 +29,7 @@ import {
 import { onDocMove, clearHover, trimBlock } from './lib/trim.js';
 import { exec, syncActive } from './lib/format.js';
 import { pushNative, isReplaying } from './lib/history.js';
+import { isHtmlFragment } from './lib/html-kind.js';
 import { openFind, closeFind, isFindOpen, bindFind } from './lib/find.js';
 import { linkFromSelection, openLinkDialog, showAudit, bindLinks } from './lib/links.js';
 import * as telemetry from './lib/telemetry.js';
@@ -118,6 +119,7 @@ const COMMANDS = {
 
   mode_edit: () => setMode('edit'),
   mode_view: () => setMode('view'),
+  mode_source: () => setMode('source'),
   toggle_edit: toggleEdit,
   toggle_trim: toggleTrim,
 
@@ -204,6 +206,10 @@ $('links').addEventListener('click', showAudit);
 $('browser').addEventListener('click', openInBrowser);
 $('pastehtml').addEventListener('click', openPasteDialog);
 $('copyhtml').addEventListener('click', copyHtml);
+$('source').addEventListener('input', () => {
+  S.fragment = isHtmlFragment($('source').value);
+  markDirty();
+});
 
 function openPasteDialog() {
   $('pasteinput').value = '';
