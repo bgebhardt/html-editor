@@ -1,0 +1,14 @@
+{
+  "productName": "HTML Editor Clipboard Preview",
+  "identifier": "com.bgebhardt.htmleditor.clipboardpreview",
+  "bundle": {
+    "targets": ["dmg"],
+    "fileAssociations": [],
+    "createUpdaterArtifacts": false
+  },
+  "plugins": {
+    "updater": {
+      "endpoints": []
+    }
+  }
+}

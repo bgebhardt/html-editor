@@ -9,7 +9,7 @@ import { invoke } from '@tauri-apps/api/core';
 import { listen } from '@tauri-apps/api/event';
 import { getCurrentWebview } from '@tauri-apps/api/webview';
 
-import { $, frame, doc } from './lib/dom.js';
+import { $, frame, doc, toast } from './lib/dom.js';
 import { S, setTitle, setSaveState, markDirty } from './lib/state.js';
 import {
   applyModes,
@@ -46,6 +46,8 @@ import {
   revealInFinder,
   bindLifecycle
 } from './lib/documents.js';
+
+const previewBuild = import.meta.env.VITE_CLIPBOARD_PREVIEW === '1';
 
 /* ---------------- the edited document ---------------- */
 
@@ -114,7 +116,7 @@ const COMMANDS = {
   browser: openInBrowser,
   reveal: revealInFinder,
   recent_clear: () => invoke('clear_recents').catch(() => {}),
-  check_updates: () => checkForUpdates(true),
+  check_updates: () => previewBuild ? toast('Updates are disabled in this preview build.') : checkForUpdates(true),
 
   mode_edit: () => setMode('edit'),
   mode_view: () => setMode('view'),
@@ -243,7 +245,7 @@ invoke('get_settings')
   })
   .catch(() => {});
 
-startUpdateSchedule();
+if (!previewBuild) startUpdateSchedule();
 
 // Report unhandled failures in the editor itself, never anything from the
 // document being edited.
