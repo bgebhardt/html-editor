@@ -14,6 +14,10 @@ export const appWindow = getCurrentWindow();
 
 export const S = {
   filePath: null,
+  /** A clipboard draft has no path until the user saves it. */
+  clipboardDraft: false,
+  /** Keep snippets as snippets when copying them back to a web editor. */
+  fragment: false,
   /** The file exactly as it was read, used to spot script-generated regions. */
   sourceHtml: '',
   dirty: false,
@@ -40,9 +44,9 @@ const dirtyHooks = [];
 export const onDirty = (fn) => dirtyHooks.push(fn);
 
 export function setTitle() {
-  const name = S.filePath ? baseName(S.filePath) : 'No file open';
+  const name = S.filePath ? baseName(S.filePath) : S.clipboardDraft ? 'Pasted HTML' : 'No file open';
   // With auto-save on there is nothing for the user to do, so no dot.
-  const mark = S.dirty && !S.autosave ? '● ' : '';
+  const mark = S.dirty && (!S.autosave || S.clipboardDraft) ? '● ' : '';
   appWindow.setTitle(`${mark}${name} — HTML Editor`).catch(() => {});
 }
 
@@ -53,8 +57,8 @@ export function setTitle() {
 export function setSaveState() {
   const el = $('savestate');
   if (!el) return;
-  const needsAction = S.filePath && S.dirty && !S.autosave;
-  el.textContent = needsAction ? 'Unsaved — ⌘S' : '';
+  const needsAction = S.clipboardDraft || (S.filePath && S.dirty && !S.autosave);
+  el.textContent = S.clipboardDraft ? 'Clipboard draft — copy HTML or save' : needsAction ? 'Unsaved — ⌘S' : '';
   el.className = needsAction ? 'edited' : '';
 }
 

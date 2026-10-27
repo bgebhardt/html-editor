@@ -35,6 +35,8 @@ import * as telemetry from './lib/telemetry.js';
 import { checkForUpdates, startUpdateSchedule } from './lib/updater.js';
 import {
   openDialog,
+  newFromPastedHtml,
+  copyHtml,
   loadPath,
   doSave,
   doSaveAs,
@@ -103,6 +105,8 @@ function onDocClick(e) {
 /** Menu item ids, and the buttons that mirror them. */
 const COMMANDS = {
   open: openDialog,
+  paste_html: openPasteDialog,
+  copy_html: copyHtml,
   save: doSave,
   save_as: doSaveAs,
   save_copy: doSaveCopy,
@@ -156,6 +160,7 @@ function onKeydown(e) {
     s: () => (shift ? doSaveAs() : doSave()),
     k: () => S.editing && linkFromSelection(),
     l: () => shift && showAudit(),
+    c: shift ? copyHtml : null,
     // Windows' other redo binding. ⌘Z / ⇧⌘Z arrive through the menu
     // accelerators, which claim those keys; Ctrl+Y is claimed by nothing.
     y: () => exec('redo')
@@ -197,6 +202,19 @@ $('find').addEventListener('click', openFind);
 $('link').addEventListener('click', linkFromSelection);
 $('links').addEventListener('click', showAudit);
 $('browser').addEventListener('click', openInBrowser);
+$('pastehtml').addEventListener('click', openPasteDialog);
+$('copyhtml').addEventListener('click', copyHtml);
+
+function openPasteDialog() {
+  $('pasteinput').value = '';
+  $('pastedlg').showModal();
+  $('pasteinput').focus();
+}
+
+$('pastecancel').addEventListener('click', () => $('pastedlg').close());
+$('pastecreate').addEventListener('click', async () => {
+  if (await newFromPastedHtml($('pasteinput').value)) $('pastedlg').close();
+});
 
 bindFind();
 bindLinks();

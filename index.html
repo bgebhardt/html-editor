@@ -44,6 +44,10 @@
     <svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01" class="dots"/></svg>
   </button>
 
+  <span class="sep"></span>
+  <button class="tb wide" id="pastehtml" title="Create a draft from pasted HTML">Paste HTML</button>
+  <button class="tb wide" id="copyhtml" title="Copy the edited HTML">Copy HTML</button>
+
   <span class="grow"></span>
   <span id="savestate"></span>
 
@@ -99,7 +103,7 @@
   <iframe id="frame"></iframe>
   <div id="drop">
     <h2>Drop an .html file here</h2>
-    <p>…or use <b>File ▸ Open…</b><br>
+    <p>…or use <b>File ▸ Open…</b> or <b>Paste HTML</b><br>
 Opens ready to edit — just click into the page and type.<br>
     Click any link while editing to change its text or URL.</p>
     <p class="keys"><kbd>⌘O</kbd> open &nbsp; <kbd>⌘S</kbd> save &nbsp;
@@ -109,6 +113,17 @@ Opens ready to edit — just click into the page and type.<br>
 </div>
 
 <div id="toast" hidden></div>
+
+<dialog id="pastedlg">
+  <h3>New from pasted HTML</h3>
+  <p>Paste the HTML you want to edit.</p>
+  <textarea id="pasteinput" aria-label="HTML source" placeholder="Paste HTML here" spellcheck="false"></textarea>
+  <div class="row">
+    <span class="grow"></span>
+    <button id="pastecancel">Cancel</button>
+    <button id="pastecreate" class="primary">Create draft</button>
+  </div>
+</dialog>
 
 <dialog id="linkdlg">
   <h3 id="linktitle">Edit link</h3>

@@ -133,5 +133,5 @@ export function serialize() {
     root.querySelector('.tabs')?.setAttribute('hidden', '');
   }
 
-  return `<!doctype html>\n${root.outerHTML}\n`;
+  return S.fragment ? root.querySelector('body').innerHTML : `<!doctype html>\n${root.outerHTML}\n`;
 }

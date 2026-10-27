@@ -530,6 +530,7 @@ fn build_menu(app: &AppHandle, settings: &Settings) -> tauri::Result<Menu<tauri:
         true,
         &[
             &item("open", "Open…", Some("CmdOrCtrl+O"))?,
+            &item("paste_html", "New from Pasted HTML…", None)?,
             &recent_menu,
             &PredefinedMenuItem::separator(app)?,
             &item("save", "Save", Some("CmdOrCtrl+S"))?,
@@ -562,6 +563,7 @@ fn build_menu(app: &AppHandle, settings: &Settings) -> tauri::Result<Menu<tauri:
             &PredefinedMenuItem::separator(app)?,
             &PredefinedMenuItem::cut(app, None)?,
             &PredefinedMenuItem::copy(app, None)?,
+            &item("copy_html", "Copy HTML", Some("Shift+CmdOrCtrl+C"))?,
             &PredefinedMenuItem::paste(app, None)?,
             &PredefinedMenuItem::select_all(app, None)?,
             &PredefinedMenuItem::separator(app)?,
